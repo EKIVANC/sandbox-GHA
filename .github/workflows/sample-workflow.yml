@@ -17,12 +17,11 @@ jobs:
         id: get-files-data
         with:
           GITHUB_TOKEN: "${{ secrets.ACTIONS_PAT }}"
-          GITHUB_COMMIT_ID: "${{ github.event.head_commit.id }}"
-        shell: bash
         run: |
-          URL="https://api.github.com/repos/ekivanc/sandbox-GHA/commits/$GITHUB_COMMIT_ID"
+          URL="https://api.github.com/repos/ekivanc/sandbox-GHA/commits/${{ github.event.head_commit.id }}"
           RESPONSE=$(curl -s -k -X GET -H "Authorization: Bearer $GITHUB_TOKEN" $URL)
           COMMITTER_NAME=$(echo $RESPONSE | jq -rj '.commit.author.name')
           FILES_CHANGED=$(echo $RESPONSE | jq -rj '.files | map(.filename) | join(" ")')
           echo "author-name=$(echo $COMMITTER_NAME)"
           echo "files-changed=$(echo $FILES_CHANGED)"
+        shell: bash
