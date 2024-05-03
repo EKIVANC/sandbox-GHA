@@ -15,11 +15,9 @@ jobs:
           fetch-depth: 0
       - name: Get File Data
         id: get-files-data
-        with:
-          GITHUB_TOKEN: "${{ secrets.ACTIONS_PAT }}"
         run: |
           URL="https://api.github.com/repos/ekivanc/sandbox-GHA/commits/${{ github.event.head_commit.id }}"
-          RESPONSE=$(curl -s -k -X GET -H "Authorization: Bearer $GITHUB_TOKEN" $URL)
+          RESPONSE=$(curl -s -k -X GET -H "Authorization: Bearer ${{ secrets.ACTIONS_PAT }}" $URL)
           COMMITTER_NAME=$(echo $RESPONSE | jq -rj '.commit.author.name')
           FILES_CHANGED=$(echo $RESPONSE | jq -rj '.files | map(.filename) | join(" ")')
           echo "author-name=$(echo $COMMITTER_NAME)"
