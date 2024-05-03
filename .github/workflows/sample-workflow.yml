@@ -1,4 +1,4 @@
-name: "diff-printer"
+name: "updated-files-printer"
 on:
   workflow_call:
   push:
@@ -9,14 +9,14 @@ jobs:
   printEvent:
     runs-on: ubuntu-latest
     steps:
-      # Make sure we have some code to diff.
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
-      - name: Get changed files
-        id: changes
-        # Set outputs using the command.
+      - name: Get File Data
+        id: get-files-data
+        shell: bash
         run: |
           echo "${{github.event.head_commit.author.name}}"
-          echo "${{github.event.type}}"
+          echo "${{github.event.head_commit.id}}"
+          echo "${{github.event.head_commit.author.email}}"
