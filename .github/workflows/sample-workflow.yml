@@ -19,3 +19,4 @@ jobs:
         # Set outputs using the command.
         run: |
           echo "${{github.event.head_commit.author.name}}"
+          echo "${{github.event.type}}"
