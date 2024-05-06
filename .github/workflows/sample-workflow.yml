@@ -22,7 +22,7 @@ jobs:
           FILES_CHANGED=$(echo $RESPONSE | jq -rj '.files | map(.filename) | join(";")')
           echo "files-changed=$(echo $FILES_CHANGED)"
           pwd
-          ls-lta
+          ls -lta
           if [[ "$FILES_CHANGED" == *"$origin"* ]]; then
             echo "copy starts"
             cp -pR "origin" "target/"
