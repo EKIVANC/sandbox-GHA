@@ -19,7 +19,15 @@ jobs:
           URL="https://api.github.com/repos/ekivanc/sandbox-GHA/commits/${{ github.event.head_commit.id }}"
           RESPONSE=$(curl -s -k -X GET -H "Authorization: Bearer ${{ secrets.ACTIONS_PAT }}" $URL)
           COMMITTER_NAME=$(echo $RESPONSE | jq -rj '.commit.author.name')
-          FILES_CHANGED=$(echo $RESPONSE | jq -rj '.files | map(.filename) | join(" ")')
-          echo "author-name=$(echo $COMMITTER_NAME)"
+          FILES_CHANGED=$(echo $RESPONSE | jq -rj '.files | map(.filename) | join(";")')
           echo "files-changed=$(echo $FILES_CHANGED)"
+
+          if [[ "$FILES_CHANGED" == *"$origin"* ]]; then
+            echo "copy starts"
+            cp -pR "origin" "target/"
+            echo "copy ends"
+          else
+            echo "skipping - files changed does not include origin.."
+          fi
+
         shell: bash
