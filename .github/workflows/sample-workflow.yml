@@ -21,7 +21,8 @@ jobs:
           COMMITTER_NAME=$(echo $RESPONSE | jq -rj '.commit.author.name')
           FILES_CHANGED=$(echo $RESPONSE | jq -rj '.files | map(.filename) | join(";")')
           echo "files-changed=$(echo $FILES_CHANGED)"
-
+          pwd
+          ls-lta
           if [[ "$FILES_CHANGED" == *"$origin"* ]]; then
             echo "copy starts"
             cp -pR "origin" "target/"
