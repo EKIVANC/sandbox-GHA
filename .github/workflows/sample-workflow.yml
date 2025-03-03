@@ -6,29 +6,29 @@ on:
       - main
 
 jobs:
-  printEvent:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-      - name: Get File Data
-        id: get-files-data
-        run: |
-          URL="https://api.github.com/repos/ekivanc/sandbox-GHA/commits/${{ github.event.head_commit.id }}"
-          RESPONSE=$(curl -s -k -X GET -H "Authorization: Bearer ${{ secrets.ACTIONS_PAT }}" $URL)
-          COMMITTER_NAME=$(echo $RESPONSE | jq -rj '.commit.author.name')
-          FILES_CHANGED=$(echo $RESPONSE | jq -rj '.files | map(.filename) | join(";")')
-          echo "files-changed=$(echo $FILES_CHANGED)"
-          pwd
-          ls -lta
-          if [[ "$FILES_CHANGED" == *"$origin"* ]]; then
-            echo "copy starts"
-            cp -pR "origin" "target/"
-            echo "copy ends"
-          else
-            echo "skipping - files changed does not include origin.."
-          fi
-
-        shell: bash
+#  printEvent:
+#    runs-on: ubuntu-latest
+#    steps:
+#      - name: Checkout repository
+#        uses: actions/checkout@v3
+#        with:
+#          fetch-depth: 0
+#      - name: Get File Data
+#        id: get-files-data
+#        run: |
+#          URL="https://api.github.com/repos/ekivanc/sandbox-GHA/commits/${{ github.event.head_commit.id }}"
+#          RESPONSE=$(curl -s -k -X GET -H "Authorization: Bearer ${{ secrets.ACTIONS_PAT }}" $URL)
+#          COMMITTER_NAME=$(echo $RESPONSE | jq -rj '.commit.author.name')
+#          FILES_CHANGED=$(echo $RESPONSE | jq -rj '.files | map(.filename) | join(";")')
+#          echo "files-changed=$(echo $FILES_CHANGED)"
+#          pwd
+#          ls -lta
+#          if [[ "$FILES_CHANGED" == *"$origin"* ]]; then
+#            echo "copy starts"
+#            cp -pR "origin" "target/"
+#            echo "copy ends"
+#          else
+#            echo "skipping - files changed does not include origin.."
+#          fi
+#
+#        shell: bash
